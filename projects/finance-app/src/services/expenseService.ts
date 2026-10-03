@@ -106,12 +106,12 @@ export function getCategoryTotals(
   for (const expense of expenses) {
     const existing = map.get(expense.category);
     if (existing) {
-      existing.total += expense.amount;
+      existing.total = (Math.round(existing.total * 100) + Math.round(expense.amount * 100)) / 100;
       existing.count += 1;
     } else {
       map.set(expense.category, {
         category: expense.category,
-        total: expense.amount,
+        total: Math.round(expense.amount * 100) / 100,
         count: 1,
       });
     }
@@ -121,5 +121,5 @@ export function getCategoryTotals(
 }
 
 export function getTotalSpending(filter?: ExpenseFilter): number {
-  return listExpenses(filter).reduce((sum, e) => sum + e.amount, 0);
+  return listExpenses(filter).reduce((sum, e) => sum + Math.round(e.amount * 100), 0) / 100;
 }
