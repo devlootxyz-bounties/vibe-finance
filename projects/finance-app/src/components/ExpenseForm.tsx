@@ -1,3 +1,4 @@
+import { localDateValue } from '../utils/localDate';
 import { useState, useEffect, type FormEvent } from 'react';
 import type { Expense, ExpenseCategory } from '../types/expense';
 import { EXPENSE_CATEGORIES } from '../types/expense';
@@ -27,7 +28,7 @@ const CATEGORY_LABELS: Record<ExpenseCategory, string> = {
 };
 
 function formatToday(): string {
-  return new Date().toISOString().split('T')[0];
+  return localDateValue();
 }
 
 export default function ExpenseForm({ expense, onSaved, onCancel }: ExpenseFormProps) {
