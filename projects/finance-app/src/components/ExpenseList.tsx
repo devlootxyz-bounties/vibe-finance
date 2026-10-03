@@ -38,8 +38,10 @@ const CATEGORY_COLORS: Record<ExpenseCategory, string> = {
   other: '#8b949e',
 };
 
+const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
 function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  return currencyFormatter.format(amount);
 }
 
 function formatDate(iso: string): string {
