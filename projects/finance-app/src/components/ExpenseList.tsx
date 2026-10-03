@@ -50,6 +50,7 @@ function formatDate(iso: string): string {
 
 export default function ExpenseList({ onEdit, refreshKey }: ExpenseListProps) {
   const [filters, setFilters] = useState<ExpenseFilters>({ category: '', startDate: '', endDate: '' });
+  const [deletionVersion, setDeletionVersion] = useState(0);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const expenses = useMemo(() => {
@@ -58,10 +59,10 @@ export default function ExpenseList({ onEdit, refreshKey }: ExpenseListProps) {
       startDate: filters.startDate || undefined,
       endDate: filters.endDate || undefined,
     });
-  }, [filters, refreshKey]);
+  }, [filters, refreshKey, deletionVersion]);
 
   function handleDelete(id: string) {
-    deleteExpense(id);
+    if (deleteExpense(id)) setDeletionVersion((version) => version + 1);
     setDeleteId(null);
   }
 
