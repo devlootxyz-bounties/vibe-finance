@@ -139,9 +139,10 @@ export default function ExpenseForm({ expense, onSaved, onCancel }: ExpenseFormP
           onChange={(e) => setDate(e.target.value)}
           max={formatToday()}
           aria-invalid={!!errors.date}
+          aria-describedby={errors.date ? 'date-error' : undefined}
         />
         {errors.date && (
-          <span role="alert" className="error-msg">{errors.date}</span>
+          <span id="date-error" role="alert" className="error-msg">{errors.date}</span>
         )}
       </div>
 
