@@ -1,3 +1,4 @@
+import { EXPENSE_CATEGORIES } from '../types/expense.ts';
 import type {
   Expense,
   ExpenseCategory,
@@ -12,13 +13,20 @@ function generateId(): string {
 }
 
 function readAll(): Expense[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as Expense[];
-  } catch {
-    return [];
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return [];
+  let parsed: unknown;
+  try { parsed = JSON.parse(raw); }
+  catch { throw new Error('Stored expenses could not be read. Back up local storage before resetting it.'); }
+  if (!Array.isArray(parsed) || !parsed.every((value) =>
+    value && typeof value === 'object' && typeof value.id === 'string' &&
+    typeof value.amount === 'number' && Number.isFinite(value.amount) && value.amount > 0 &&
+    typeof value.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.date) &&
+    EXPENSE_CATEGORIES.includes(value.category) && typeof value.description === 'string' &&
+    typeof value.createdAt === 'string')) {
+    throw new Error('Stored expenses have an invalid format. Back up local storage before resetting it.');
   }
+  return parsed as Expense[];
 }
 
 function writeAll(expenses: Expense[]): void {
