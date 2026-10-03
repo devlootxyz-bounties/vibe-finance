@@ -1,73 +1,31 @@
-# React + TypeScript + Vite
+# Finance App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based personal expense tracker built with React, TypeScript and Vite.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Use Node.js 22.12 or newer and npm. From `projects/finance-app`:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm ci
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open the local URL printed by Vite. `npm run build` checks TypeScript and builds the production assets; `npm run preview` serves that build. `npm run lint` runs ESLint.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Current behavior
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Dashboard: total spending, transaction count and monthly/category charts.
+- Add Expense: amount, category, description and date.
+- Expenses: filter by category or date range, edit an expense, or confirm its deletion.
+- Amounts are displayed as US dollars; multi-currency conversion is not implemented.
+
+## Your data
+
+Records are stored in this browser’s `localStorage` under `finance-app-expenses`. There is no server account, bank connection, cloud sync or shared-account authorization in this version. Another browser or device does not automatically see these records. Clearing site data may permanently remove them.
+
+Use non-sensitive sample records during development. Do not rely on this prototype as the only copy of important financial records. Close access to shared browser profiles when finished.
+
+## Repository layout
+
+`src/components` contains forms, lists and charts; `src/pages` defines screens; `src/services/expenseService.ts` owns browser persistence and aggregation; `src/types/expense.ts` defines the records.
