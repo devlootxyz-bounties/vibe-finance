@@ -1,3 +1,4 @@
+import { dateError } from '../utils/dateValidation';
 import { useState, useEffect, type FormEvent } from 'react';
 import type { Expense, ExpenseCategory } from '../types/expense';
 import { EXPENSE_CATEGORIES } from '../types/expense';
@@ -54,9 +55,8 @@ export default function ExpenseForm({ expense, onSaved, onCancel }: ExpenseFormP
     if (!amount || isNaN(numAmount) || numAmount <= 0) {
       next.amount = 'Enter a positive amount';
     }
-    if (!date) {
-      next.date = 'Date is required';
-    }
+    const message = dateError(date);
+    if (message) next.date = message;
     return next;
   }
 
